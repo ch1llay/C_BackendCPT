@@ -51,7 +51,7 @@ namespace Task2
             };
 
 
-            var departamentEmploeyes = everythingEmployees.GroupBy(x => x.Departament.Title).ToDictionary(x => x.Key);
+            var departamentEmploeyes = everythingEmployees.GroupBy(x => x.Departament.Title).ToDictionary(x => x.Key, x => x.ToList());
 
             foreach(var el in departamentEmploeyes)
             {
