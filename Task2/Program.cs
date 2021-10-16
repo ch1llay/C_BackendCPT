@@ -7,28 +7,28 @@ namespace Task2
 
     class Departament
     {
-        public string title;
-        public int number;
-        public string manager;
+        public string Title;
+        public int Number;
+        public string Manager;
         public Departament(string title, int number, string manager)
         {
-            this.title = title;
-            this.number = number;
-            this.manager = manager;
+            this.Title = title;
+            this.Number = number;
+            this.Manager = manager;
         }
     }
     class Employee
     {
-        public string surname;
-        public string name;
-        public string patronymic;
-        public Departament departament;
+        public string Surname;
+        public string Name;
+        public string Patronymic;
+        public Departament Departament;
         public Employee(string surname, string name, string patronymic, Departament departament)
         {
-            this.surname = surname;
-            this.name = name;
-            this.patronymic = patronymic;
-            this.departament = departament;
+            this.Surname = surname;
+            this.Name = name;
+            this.Patronymic = patronymic;
+            this.Departament = departament;
         }
 
     }
@@ -40,27 +40,27 @@ namespace Task2
             Departament departament2 = new Departament("Departament2", 2, "Manager2");
             Departament departament3 = new Departament("Departament3", 3, "Manager3");
 
-            List < Employee > everythingEmployees = new List<Employee>();
-
-            everythingEmployees.Add(new Employee("Иванов", "Иван", "Иванович", departament1));
-            everythingEmployees.Add(new Employee("Петров", "Петр", "Петрович", departament2));
-            everythingEmployees.Add(new Employee("Сидоров", "Иван", "Петрович", departament3));
-            everythingEmployees.Add(new Employee("Петров", "Иван", "Иванович", departament1));
-            everythingEmployees.Add(new Employee("Иванов", "Петр", "Петрович", departament2));
-            everythingEmployees.Add(new Employee("Петров", "Иван", "Петрович", departament3));
-
-            Dictionary<string, List<Employee>> departamentEmploeyes = new Dictionary<string, List<Employee>>();
-
-            departamentEmploeyes.Add(departament1.title, everythingEmployees.Where(el => el.departament.title.StartsWith(departament1.title)).ToList());
-            departamentEmploeyes.Add(departament2.title, everythingEmployees.Where(el => el.departament.title.StartsWith(departament2.title)).ToList());
-            departamentEmploeyes.Add(departament3.title, everythingEmployees.Where(el => el.departament.title.StartsWith(departament3.title)).ToList());
-
-            foreach(KeyValuePair<string, List<Employee>> keyValue in departamentEmploeyes)
+            List < Employee > everythingEmployees = new List<Employee> 
             {
-                Console.WriteLine("Отдел " + keyValue.Key);
-                Console.WriteLine(string.Join(Environment.NewLine, keyValue.Value.Select(x=> $"\t {x.surname} {x.name} {x.patronymic}")));
-            }
+                new Employee("Иванов", "Иван", "Иванович", departament1),
+                new Employee("Петров", "Петр", "Петрович", departament2),
+                new Employee("Сидоров", "Иван", "Петрович", departament3),
+                new Employee("Петров", "Иван", "Иванович", departament1),
+                new Employee("Иванов", "Петр", "Петрович", departament2),
+                new Employee("Петров", "Иван", "Петрович", departament3),
+            };
 
+
+            var departamentEmploeyes = everythingEmployees.GroupBy(x => x.Departament.Title).ToDictionary(x => x.Key);
+
+            foreach(var el in departamentEmploeyes)
+            {
+                Console.WriteLine(el.Key);
+                foreach(var elInList in el.Value)
+                {
+                    Console.WriteLine($"\t {elInList.Surname} {elInList.Name} {elInList.Patronymic}");
+                }
+            }
         }
     }
 }
